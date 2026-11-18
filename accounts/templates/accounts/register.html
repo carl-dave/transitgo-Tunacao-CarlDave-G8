@@ -1,0 +1,94 @@
+{% extends 'accounts/base.html' %}
+
+{% block title %}TransitGo | Register{% endblock %}
+
+{% block content %}
+<div class="w-full max-w-md bg-white border border-slate-200 rounded-3xl shadow-xl p-8 my-6">
+    <div class="mb-6">
+        <h1 class="text-3xl font-extrabold text-[#0f172a] tracking-tight">Create your account</h1>
+        <p class="text-slate-500 text-sm mt-1">Join TransitGo and make every commute effortless.</p>
+    </div>
+
+    {% if messages %}
+        <div class="mb-4 space-y-2">
+            {% for message in messages %}
+                <div class="p-3 rounded-xl text-sm font-medium {% if message.tags == 'success' %}bg-emerald-50 text-emerald-700{% else %}bg-rose-50 text-rose-700{% endif %}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <form method="POST" class="space-y-4">
+        {% csrf_token %}
+
+        <div class="grid grid-cols-2 gap-3">
+            <div>
+                <label class="block text-xs font-bold text-[#1e293b] mb-1">First name</label>
+                <input type="text" name="first_name" value="{{ form.first_name.value|default:'' }}" required placeholder="Alex"
+                    class="w-full px-4 py-3 bg-white border border-slate-200 rounded-2xl text-sm text-slate-900 focus:outline-none focus:border-[#102a43] shadow-sm">
+                {% if form.first_name.errors %}<p class="text-rose-600 text-xs mt-1">{{ form.first_name.errors.0 }}</p>{% endif %}
+            </div>
+            <div>
+                <label class="block text-xs font-bold text-[#1e293b] mb-1">Last name</label>
+                <input type="text" name="last_name" value="{{ form.last_name.value|default:'' }}" required placeholder="Morgan"
+                    class="w-full px-4 py-3 bg-white border border-slate-200 rounded-2xl text-sm text-slate-900 focus:outline-none focus:border-[#102a43] shadow-sm">
+                {% if form.last_name.errors %}<p class="text-rose-600 text-xs mt-1">{{ form.last_name.errors.0 }}</p>{% endif %}
+            </div>
+        </div>
+
+        <div>
+            <label class="block text-xs font-bold text-[#1e293b] mb-1">Username</label>
+            <input type="text" name="username" value="{{ form.username.value|default:'' }}" required placeholder="alexmorgan"
+                class="w-full px-4 py-3 bg-white border border-slate-200 rounded-2xl text-sm text-slate-900 focus:outline-none focus:border-[#102a43] shadow-sm">
+            {% if form.username.errors %}<p class="text-rose-600 text-xs mt-1">{{ form.username.errors.0 }}</p>{% endif %}
+        </div>
+
+        <div>
+            <label class="block text-xs font-bold text-[#1e293b] mb-1">Email address</label>
+            <input type="email" name="email" value="{{ form.email.value|default:'' }}" required placeholder="alex@example.com"
+                class="w-full px-4 py-3 bg-white border border-slate-200 rounded-2xl text-sm text-slate-900 focus:outline-none focus:border-[#102a43] shadow-sm">
+            {% if form.email.errors %}<p class="text-rose-600 text-xs mt-1">{{ form.email.errors.0 }}</p>{% endif %}
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+            <div>
+                <label class="block text-xs font-bold text-[#1e293b] mb-1">Role</label>
+                <select name="role" class="w-full px-4 py-3 bg-white border border-slate-200 rounded-2xl text-sm text-slate-900 focus:outline-none focus:border-[#102a43] shadow-sm">
+                    <option value="commuter">Commuter</option>
+                    <option value="operator">Operator</option>
+                </select>
+            </div>
+            <div>
+                <label class="block text-xs font-bold text-[#1e293b] mb-1">Phone number</label>
+                <input type="text" name="contact_number" value="{{ form.contact_number.value|default:'' }}" placeholder="+1 (555) 000-0000"
+                    class="w-full px-4 py-3 bg-white border border-slate-200 rounded-2xl text-sm text-slate-900 focus:outline-none focus:border-[#102a43] shadow-sm">
+            </div>
+        </div>
+
+        <div>
+            <label class="block text-xs font-bold text-[#1e293b] mb-1">Password</label>
+            <input type="password" name="password1" required placeholder="Enter your password"
+                class="w-full px-4 py-3 bg-white border border-slate-200 rounded-2xl text-sm text-slate-900 focus:outline-none focus:border-[#102a43] shadow-sm">
+            {% if form.password1.errors %}<p class="text-rose-600 text-xs mt-1">{{ form.password1.errors.0 }}</p>{% endif %}
+        </div>
+
+        <div>
+            <label class="block text-xs font-bold text-[#1e293b] mb-1">Confirm password</label>
+            <input type="password" name="password2" required placeholder="Repeat your password"
+                class="w-full px-4 py-3 bg-white border border-slate-200 rounded-2xl text-sm text-slate-900 focus:outline-none focus:border-[#102a43] shadow-sm">
+            {% if form.password2.errors %}<p class="text-rose-600 text-xs mt-1">{{ form.password2.errors.0 }}</p>{% endif %}
+        </div>
+
+        <button type="submit"
+            class="w-full py-3.5 px-4 bg-[#102a43] hover:bg-[#1b365d] text-white font-bold rounded-2xl transition duration-200 shadow-md flex items-center justify-center space-x-2 mt-2">
+            <span>Create account</span>
+            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+        </button>
+    </form>
+
+    <p class="text-center text-slate-500 text-sm mt-6">
+        Already have an account? <a href="{% url 'login' %}" class="text-[#102a43] hover:underline font-bold">Log in</a>
+    </p>
+</div>
+{% endblock %}
